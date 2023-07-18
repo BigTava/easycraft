@@ -1,0 +1,4 @@
+
+#!/usr/bin/env sh
+
+node node_modules/.bin/ceramic "$@"
