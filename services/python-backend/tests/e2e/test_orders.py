@@ -18,5 +18,5 @@ def test_request_order(client):
     so we can skip that part.'''}
 
     response = client.post("/api/orders", json=order)
-
     print(response.json())
+    return response.json()

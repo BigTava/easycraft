@@ -12,6 +12,7 @@ router = APIRouter(prefix="/api/orders", tags=["Orders"])
 async def post_order(
     payload: OrderPayloadSchema,
 ) -> OrderResponseSchema:
-    output = run_prompt(payload.order)
+    output = await run_prompt(payload.order)
+    print(output)
 
     return output
