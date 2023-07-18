@@ -1,24 +1,30 @@
-FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
+FROM python:3.10.1-slim-buster
 
-# set working directory
 RUN mkdir -p /src
 WORKDIR /src
 
+COPY ./requirements.txt .
+COPY ./entrypoint.sh .
 COPY . .
 
 # install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    build-essential \
-    python3.10 \
-    python3-pip
+RUN apt-get update \
+  && apt-get -y install netcat gcc postgresql curl \
+  && apt-get clean
 
 # install python dependencies
-RUN pip3 install --upgrade pip
-RUN pip3 install -r requirements.txt
+RUN pip install --upgrade pip
+RUN pip install -r requirements.txt
 
-COPY . .
+# Install Docker
+RUN curl -fsSL https://get.docker.com -o get-docker.sh \
+  && sh get-docker.sh
 
+# Install Bacalhau
+RUN curl -sL https://get.bacalhau.org/install.sh | bash
+
+# add entrypoint.sh
+RUN chmod +x /src/entrypoint.sh
+
+# run entrypoint.sh
 ENTRYPOINT ["/src/entrypoint.sh"]
-
-

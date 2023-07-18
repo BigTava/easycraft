@@ -1,11 +1,17 @@
-import torch
-from transformers import pipeline
+import json
+import os
+
+import requests
 
 
-def verify_order(order: str):
-   
-    ans = pipeline(model="databricks/dolly-v2-3b", torch_dtype=torch.bfloat16,
-                    trust_remote_code=True, device_map="auto")
-    out = ans("What is the capital of India")
-
-    return out
+async def run_prompt(input: str):
+    url = "https://egrgbdt5yfhe8xdw.us-east-1.aws.endpoints.huggingface.cloud"
+    headers = {
+        "Authorization": os.getenv("HUGGING_FACE_ACCESS_TOKEN"),
+        "Content-Type": "application/json"
+    }
+    data = {
+        "inputs": input
+    }
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    return response.json()
