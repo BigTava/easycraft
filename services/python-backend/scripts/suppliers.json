@@ -1,0 +1,46 @@
+{
+  "suppliers": [
+    {
+      "supplier_id": 1,
+      "supplier_name": "Best Screws Co.",
+      "location": "Chicago",
+      "product_capacity": [
+        {
+          "product_type": "Screw",
+          "material": "Iron",
+          "capacity": 1000,
+          "lead_time": 2,
+          "tolerance": 0.1
+        },
+        {
+          "product_type": "Bolt",
+          "material": "Steel",
+          "capacity": 800,
+          "lead_time": 3,
+          "tolerance": 0.15
+        }
+      ]
+    },
+    {
+      "supplier_id": 2,
+      "supplier_name": "Quality Bolts Inc.",
+      "location": "Detroit",
+      "product_capacity": [
+        {
+          "product_type": "Screw",
+          "material": "Aluminium",
+          "capacity": 1200,
+          "lead_time": 1,
+          "tolerance": 0.05
+        },
+        {
+          "product_type": "Bolt",
+          "material": "Steel",
+          "capacity": 1500,
+          "lead_time": 2,
+          "tolerance": 0.1
+        }
+      ]
+    }
+  ]
+}

@@ -1,14 +1,9 @@
 from pydantic import BaseModel
 
 
-class OrmBaseModel(BaseModel):
-    class Config:
-        orm_mode = True
+class OrderPayloadSchema(BaseModel):
+    order: str
 
 
-class OrderPayloadSchema(OrmBaseModel):
-    type: str
-
-
-class OrderResponseSchema(OrmBaseModel):
+class OrderResponseSchema(BaseModel):
     status: str
