@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "python-backend"
+version = "0.1.0"
+description = ""
+authors = ["Tiago Tavares <bigtavadev@gmail.com>"]
+readme = "README.md"
+packages = [{include = "python_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^1.10.4"
+fastapi = "0.88.0"
+uvicorn = "^0.23.1"
+httpx = "^0.24.1"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+pytest-cov = "^4.1.0"
+black = "^23.7.0"
+isort = "^5.12.0"
+flake8 = "^6.0.0"
+bandit = "^1.7.5"
+safety = "^2.3.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
