@@ -13,6 +13,5 @@ async def post_order(
     payload: OrderPayloadSchema,
 ) -> OrderResponseSchema:
     output = await run_prompt(payload.order)
-    print(output)
 
-    return output
+    return {"message": output}

@@ -1,6 +1,3 @@
-import json
-
-
 def test_request_order(client):
     order = {"order": '''I'm looking to place an order for a specific product.
     It's a screw,falls under the hardware category, and it's made of iron.
@@ -18,5 +15,5 @@ def test_request_order(client):
     so we can skip that part.'''}
 
     response = client.post("/api/orders", json=order)
-    print(response.json())
-    return response.json()
+    
+    assert response.status_code == 200

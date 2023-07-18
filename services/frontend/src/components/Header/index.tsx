@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 // Components
 import logo from "assets/images/EcoVerse-logo.png";
-import NavLinks from "components/Header/NavLinks";
 import AccountModal from "components/Modals/AccountModal";
 import { DefaultButton } from "components/Buttons/DefaultButton";
 import HeaderContainer from "./Container";
@@ -18,7 +17,7 @@ import { UserCircleIcon } from "@heroicons/react/24/outline";
 export function Header() {
   const navigate = useNavigate();
   const { Moralis } = useMoralis();
-  const { setUser, user, community } = useUser();
+  const { setUser, user } = useUser();
   const { setWeb3 } = useWeb3();
 
   const [openWalletModal, setOpenWalletModal] = useState<boolean>(false);
@@ -64,15 +63,6 @@ export function Header() {
             <a href="/" aria-label="Home">
               <img className="" src={logo} alt="logo" width="160px"></img>
             </a>
-            {!community && (
-              <NavLinks
-                labels={[
-                  ["Discover", "#discover"],
-                  ["Invest", "open-crowdloans", "APY > 10%"],
-                  ["Roadmap", "roadmap"],
-                ]}
-              />
-            )}
           </div>
           <div className="flex items-center gap-6">
             <div className="col-span-1 flex w-full items-center justify-end gap-[8px] font-semibold text-green-400  ">

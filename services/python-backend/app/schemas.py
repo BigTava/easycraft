@@ -6,4 +6,4 @@ class OrderPayloadSchema(BaseModel):
 
 
 class OrderResponseSchema(BaseModel):
-    status: str
+    message: str
