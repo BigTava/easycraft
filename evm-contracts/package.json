@@ -4,7 +4,8 @@
   "description": "Spare capacity marketplace contracts",
   "scripts": {
     "test": "hardhat test",
-    "compile": "hardhat compile"
+    "compile": "hardhat compile",
+    "deploy": "hardhat run --network chiado scripts/deploy.js"
   },
   "license": "MIT",
   "devDependencies": {
@@ -26,5 +27,8 @@
     "ts-node": "^10.9.1",
     "typechain": "^8.3.0",
     "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1"
   }
 }
