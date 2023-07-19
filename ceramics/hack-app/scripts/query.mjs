@@ -37,36 +37,158 @@ const authenticate = async () => {
 
 await authenticate()
 // const auth = await compose.setDID("did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP#z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP")
-console.log("auth", compose.did);
 
 
-const resCreate = await compose.executeQuery(`
+// const resCreate = await compose.executeQuery(`
+// mutation {
+//     createCapacity(input: {
+//       content: {
+//         product_type: """${"hello"}"""
+//       }
+//     })
+//     {
+//       document {
+//         product_type
+//       }
+//     }
+//   }
+// `)
+
+// console.log("resCreate", resCreate);
+
+
+const resCreateOrder = await compose.executeQuery(`
 mutation {
-    createCapacity(input: {
+    createOrder(input: {
       content: {
-        displayName: """${"hello"}"""
+        product_name: """${"typpe"}""",
+        material: """${"mattt"}""",
+        supplier_id: """${"supppId2"}""",
+        capacity_id: """${"supppId2"}""",
       }
     })
     {
       document {
-        displayName
+        product_name
+        material
+        supplier_id,
+        capacity_id,
       }
     }
   }
 `)
 
-console.log("resCreate", resCreate);
+console.log("resCreateOrder", resCreateOrder);
 
-
-const res = await compose.executeQuery(`
+const resCreateOrderList = await compose.executeQuery(`
 query {
   viewer {
-    capacity {
-      id
-      displayName
+    orderList(last:300) { 
+      edges {
+        node {
+          product_name
+          material
+          supplier_id,
+          capacity_id,
+        }
+      }
     }
   }
 }
 `)
 
-console.log("res", res.data)
+console.log("resCreateOrderList", resCreateOrderList.data.viewer.orderList.edges.map(k => JSON.stringify(k)))
+
+
+// const resCreateCapacity = await compose.executeQuery(`
+// mutation {
+//     createCapacity3(input: {
+//       content: {
+//         product_type: """${"typpe"}""",
+//         material: """${"mattt"}""",
+//         supplier_id: """${"supppId2"}""",
+//         capacity: 10,
+//         lead_time: 100,
+//         tolerance: 0.1
+//       }
+//     })
+//     {
+//       document {
+//         product_type
+//         material
+//         supplier_id,
+//         capacity,
+//         lead_time,
+//         tolerance
+//       }
+//     }
+//   }
+// `)
+
+// console.log("resCreateCapacity", resCreateCapacity);
+
+// const resCreateCapacitylist = await compose.executeQuery(`
+// query {
+//   viewer {
+//     capacity3List(last:300) { 
+//       edges {
+//         node {
+//           product_type
+//           material
+//           supplier_id,
+//           capacity,
+//           lead_time,
+//           tolerance
+//         }
+//       }
+//     }
+//   }
+// }
+// `)
+
+// console.log("capacity3List", resCreateCapacitylist.data.viewer.capacity3List.edges.map(k => JSON.stringify(k)))
+
+
+// console.log("res", res.data.viewer.supplierList.edges.map(k => JSON.stringify(k)))
+
+
+
+// const resCreate = await compose.executeQuery(`
+// mutation {
+//     createSupplier(input: {
+//       content: {
+//         supplier_name: """${"hisName"}""",
+//         supplier_id: """${"idddd"}""",
+//         location: """${"locationnn"}"""
+//       }
+//     })
+//     {
+//       document {
+//         supplier_name
+//         supplier_id
+//         location
+//       }
+//     }
+//   }
+// `)
+
+// console.log("resCreate", resCreate);
+
+// const res = await compose.executeQuery(`
+// query {
+//   viewer {
+//     supplierList(last:300) { 
+//       edges {
+//         node {
+//           supplier_name
+//           supplier_id
+//           location
+//         }
+//       }
+//     }
+//   }
+// }
+// `)
+
+
+// console.log("res", res.data.viewer.supplierList.edges.map(k => JSON.stringify(k)))

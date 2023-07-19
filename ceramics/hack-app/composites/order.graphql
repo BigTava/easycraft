@@ -1,0 +1,6 @@
+type Order @createModel(accountRelation: LIST, description: "Orders") {
+  product_name: String @string(minLength: 0, maxLength: 50)
+  material: String @string(minLength: 0, maxLength: 50)
+  supplier_id: String @string(minLength: 0, maxLength: 50)
+  capacity_id: String @string(minLength: 0, maxLength: 50)
+}
