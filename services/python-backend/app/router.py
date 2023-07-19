@@ -15,13 +15,15 @@ async def post_order(
 ) -> OrderResponseSchema:
     if payload.decentralized_computation is False:
         output = await ask_feedback(payload.order)
-        return {"message": output}
+        return {"message": output[0]["generated_text"]}
     else:
         # output = await run_in_bacalhau(payload.order)
-        output = await call_prompt(create_order_input(payload.order))
-        output["message"] = output
-        output["orderId"] = "1111"
-        output["supplierId"] = "2222"
-        output["amount"] = 5
-        return {"message": output["message"], "orderId": output["orderId"], "supplierId": 
-                output["supplierId"], "amount": output["amount"]}
+        output = call_prompt(create_order_input(payload.order))
+        generated_text = output[0]["generated_text"]
+        response = {}
+        response["message"] = generated_text
+        response["orderId"] = "0x9269195a0e6303c68fc632ed9e0b7dd83a4517946cfc94cc99b2e6b25f5d2447"
+        response["capacityId"] = "0xb15bf9f04e846c844a244f94b582e0634469d275a92ca234f65088a60166a449"
+        response["amount"] = 5
+        return {"message": response["message"], "orderId": response["orderId"], "capacityId": 
+                response["capacityId"], "amount": response["amount"]}

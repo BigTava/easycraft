@@ -1,14 +1,32 @@
-import { useState } from "react";
+import { useState, ReactText } from "react";
+import { ContractTransaction } from "ethers";
 import { useMutation } from "@tanstack/react-query";
+import { useWeb3Contract } from "react-moralis";
+import { useUser } from "contexts/User.context";
+import { useWeb3 } from "contexts/Web3.context";
+import { isSupportedChain } from "utils/networks";
+import { toast } from "react-toastify";
 import axios from "axios";
 
 // Components
 import { DefaultButton } from "components/Buttons/DefaultButton";
 
+// Utils
+import marketPlaceAbi from "utils/abis/marketPlace.json";
+import { MatchedOrder } from "utils/types/matchedOrder.types";
+
 const Landing = () => {
   const [step, setStep] = useState<number>(0);
   const [currentUserPrompt, setCurrentUserPrompt] = useState<string>("You: ");
   const [messages, setMessages] = useState<string[]>([]);
+  const [orderArgs, setOrderArgs] = useState<MatchedOrder>({
+    orderId: "",
+    capacityId: "",
+    amount: 0,
+  });
+
+  const { user } = useUser();
+  const { web3 } = useWeb3();
 
   const mutation = useMutation(
     (newOrder: { order: string; decentralized_computation: boolean }) => {
@@ -16,18 +34,85 @@ const Landing = () => {
     }
   );
 
+  const { runContractFunction: matchCapacity } = useWeb3Contract({
+    abi: marketPlaceAbi,
+    contractAddress: "0xCeedFC3f1b205405170d7ee8BE95EafDeF197c92",
+    functionName: "matchCapacity",
+    params: {
+      _orderId: orderArgs!.orderId,
+      _capacityId: orderArgs!.capacityId,
+      _amount: orderArgs!.amount,
+    },
+  });
+
+  const handlePayment = async () => {
+    if (!user) {
+      return toast.warn("Please Login!", {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "light",
+      });
+    }
+
+    if (!isSupportedChain(await web3.eth.getChainId())) {
+      return toast.warn("Please connect to a correct network!", {
+        position: "top-right",
+        autoClose: 5000,
+        theme: "light",
+      });
+    }
+
+    const id = toast.loading("Please wait...", {
+      position: "top-right",
+      autoClose: 5000,
+      theme: "light",
+    });
+    await matchCapacity({
+      onSuccess: (tx: any) => handleSuccess(id, tx),
+      onError: (error) => handleError(id, error),
+    });
+  };
+
+  const handleSuccess = async (toastId: ReactText, tx: ContractTransaction) => {
+    await tx.wait();
+
+    toast.update(toastId, {
+      render: "Order on the way!",
+      type: toast.TYPE.SUCCESS,
+      position: "top-right",
+      isLoading: false,
+      autoClose: 1000,
+    });
+  };
+
+  const handleError = (toastId: ReactText, error: any) => {
+    /* eslint-disable no-console */
+    console.error(error);
+    toast.update(toastId, {
+      render: "Error confirming order!",
+      type: toast.TYPE.ERROR,
+      position: "top-right",
+      isLoading: false,
+      autoClose: 1000,
+    });
+  };
+
   const onClickSend = async () => {
     setMessages([...messages, `You: ${currentUserPrompt}`]);
     mutation.mutate(
-      { order: currentUserPrompt, decentralized_computation: step === 3 },
+      { order: currentUserPrompt, decentralized_computation: step === 1 },
       {
-        onSuccess: (data) => {
+        onSuccess: async (data) => {
           setMessages([
             ...messages,
             `You: ${currentUserPrompt}`,
             `AI: ${data.data.message}`,
           ]);
           setStep(step + 1);
+
+          if (step === 1) {
+            setOrderArgs(data.data);
+          }
         },
         onError: (error) => {
           setMessages([
@@ -77,7 +162,10 @@ const Landing = () => {
         {step === 2 && (
           <div className=" text-center">
             <p className="mb-5 text-center">🥳 Your request is ready!</p>
-            <DefaultButton className="w-1/6 rounded-full" onClick={() => {}}>
+            <DefaultButton
+              className="w-1/6 rounded-full"
+              onClick={async () => await handlePayment()}
+            >
               Pay
             </DefaultButton>
           </div>

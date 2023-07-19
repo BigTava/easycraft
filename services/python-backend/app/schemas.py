@@ -12,3 +12,4 @@ class OrderResponseSchema(BaseModel):
     message: str
     orderId: Optional[str]
     capacityId: Optional[str]
+    amount: Optional[str]

@@ -4,16 +4,15 @@ export enum Networks {
   Goerli = "Ethereum (Goerli)",
   Polygon = "Polygon (Mumbai)",
   Optimism = "Optimism (Goerli)",
+  Gnosis = "Gnosis",
 }
 
 export enum SupportedChainId {
-  SEPOLIA = 11155111,
-  HARDHAT = 31337,
+  CHIADO = 10200,
 }
 
 export const CHAIN_IDS_TO_NETWORKS = {
-  [SupportedChainId.SEPOLIA]: Networks.Sepolia,
-  [SupportedChainId.HARDHAT]: Networks.Hardhat,
+  [SupportedChainId.CHIADO]: Networks.Gnosis,
 };
 
 export const ALL_SUPPORTED_CHAIN_IDS: SupportedChainId[] = Object.values(
