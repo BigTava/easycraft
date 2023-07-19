@@ -1,6 +1,7 @@
 import json
 import os
 import subprocess
+import time
 
 import requests
 from app.exceptions import ErrorGeneratingText
@@ -44,20 +45,32 @@ async def run_in_bacalhau(order: str):
                                              "order_schema.json"))))}"""
 
     command = (
-    "bacalhau docker run "
-    "-w /inputs "
-    "-i gitlfs://huggingface.co/databricks/dolly-v2-3b.git "
-    "-i https://gist.githubusercontent.com/js-ts/d35e2caa98b1c9a8f176b0b877e0c892/raw/3f020a6e789ceef0274c28fc522ebf91059a09a9/inference.py "
-    "jsacex/dolly_inference:latest "
-    "-- python inference.py --prompt 'Hey' --model_version './databricks/dolly-v2-3b'"
+        "bacalhau docker run jsacex/dolly_inference:latest ",
+        "-w /inputs",
+        "-i gitlfs://huggingface.co/databricks/dolly-v2-3b.git",
+        "-i https://gist.githubusercontent.com/js-ts/d35e2caa98b1c9a8f176b0b877e0c892/raw/3f020a6e789ceef0274c28fc522ebf91059a09a9/inference.py \
+jsacex/dolly_inference:latest",
+        f"-- python inference.py --prompt '{input}' --model_version './databricks/dolly-v2-3b'"
     )
+    process = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    job_id = process.stdout.split()[-1]
+    print(job_id)
 
-    # run the command
-    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
-                               stderr=subprocess.PIPE)
+    while True:
+        status_command = f"bacalhau list --id-filter {job_id}"
+        process = subprocess.run(status_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        print(process.stdout)
+        if 'Completed' in process.stdout:
+            break
+        time.sleep(5)  # wait for 5 seconds before checking again
 
-    # get the output and errors
-    stdout, stderr = process.communicate()
-    print(stderr)
-    print(stdout)
-    return stdout
+    os.makedirs(os.path.join("tmp", f"{job_id}"), exist_ok=True)
+
+    # download the job result
+    download_command = f"bacalhau get {job_id} --output-dir {os.path.join('tmp', f'{job_id}')}"
+    subprocess.run(download_command, shell=True)
+
+    with open(os.path.join('tmp', f'{job_id}', 'stdout')) as f:
+        result = f.read()
+
+    return result

@@ -35,6 +35,7 @@ const Landing = () => {
             `You: ${currentUserPrompt}`,
             `AI: Ooops, Please try again!`,
           ]);
+          console.log(error);
         },
       }
     );

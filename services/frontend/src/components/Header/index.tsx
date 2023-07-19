@@ -8,7 +8,6 @@ import { useMoralis } from "react-moralis";
 import { useNavigate } from "react-router-dom";
 
 // Components
-import logo from "assets/images/EcoVerse-logo.png";
 import AccountModal from "components/Modals/AccountModal";
 import { DefaultButton } from "components/Buttons/DefaultButton";
 import HeaderContainer from "./Container";
@@ -60,8 +59,9 @@ export function Header() {
       <nav>
         <HeaderContainer>
           <div className="relative z-10 flex items-center gap-16">
-            <a href="/" aria-label="Home">
-              <img className="" src={logo} alt="logo" width="160px"></img>
+            <a href="/" aria-label="Home" className="">
+              <span className="text-4xl font-bold text-blue-600">Get</span>
+              <span className="text-3xl font-light text-gray-700">Capcity</span>
             </a>
           </div>
           <div className="flex items-center gap-6">
