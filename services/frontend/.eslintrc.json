@@ -25,7 +25,7 @@
     "react/react-in-jsx-scope": "off",
     "no-unsafe-finally": 1,
     "no-unused-vars": "off",
-    "no-console": "error",
+    "no-console": "warn",
     "no-duplicate-imports": "error",
     "no-empty": "error",
     "no-inline-comments": "error",

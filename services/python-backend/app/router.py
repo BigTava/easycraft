@@ -1,5 +1,5 @@
 from app.schemas import OrderPayloadSchema, OrderResponseSchema
-from app.service import run_prompt
+from app.service import ask_feedback
 from fastapi import APIRouter, status
 
 router = APIRouter(prefix="/api/orders", tags=["Orders"])
@@ -12,6 +12,6 @@ router = APIRouter(prefix="/api/orders", tags=["Orders"])
 async def post_order(
     payload: OrderPayloadSchema,
 ) -> OrderResponseSchema:
-    output = await run_prompt(payload.order)
+    output = await ask_feedback(payload.order)
 
     return {"message": output}

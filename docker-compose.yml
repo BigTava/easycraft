@@ -15,5 +15,20 @@ services:
     networks:
       - default
 
+  frontend:
+    build:
+      context: ./services/frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    volumes:
+      - ./services/frontend:/app/frontend
+      - /app/frontend/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    networks:
+      - default
+
 networks:
   default:
