@@ -40,14 +40,14 @@ const authenticate = async () => {
     return compose
 }
 
-app.get('/orders', async (req, res) => {
-    const client = await authenticate()
+async function getOrders(client) {
     const orderList = await client.executeQuery(`
     query {
       viewer {
         orderList(last:300) { 
           edges {
             node {
+              order_id
               product_name
               material
               supplier_id,
@@ -59,7 +59,30 @@ app.get('/orders', async (req, res) => {
     }
     `)
 
-    res.json(orderList.data.viewer.orderList.edges.map(k => JSON.stringify(k)));
+    return orderList.data.viewer.orderList.edges.map(k => k.node);
+}
+
+app.get('/orders', async (req, res) => {
+    const client = await authenticate()
+    const orders = await getOrders(client)
+
+    res.json(orders);
+});
+
+app.get('/orders/:id', async (req, res) => {
+    const itemId = req.params.id;
+
+    console.log("itemId", itemId);
+
+    const client = await authenticate()
+    const suppliersList = await getOrders(client)
+
+    const item = suppliersList.find(item => item.order_id === itemId);
+    if (!item) {
+        res.status(404).json({ message: 'Item not found' });
+    } else {
+        res.json(item);
+    }
 });
 
 app.post('/orders', async (req, res) => {
@@ -68,6 +91,7 @@ app.post('/orders', async (req, res) => {
     mutation {
         createOrder(input: {
         content: {
+            order_id: """${req.body.order_id}""",
             product_name: """${req.body.product_name}""",
             material: """${req.body.meterial}""",
             supplier_id: """${req.body.supplier_id}""",
@@ -76,6 +100,7 @@ app.post('/orders', async (req, res) => {
         })
         {
         document {
+            order_id
             product_name
             material
             supplier_id,
@@ -88,9 +113,7 @@ app.post('/orders', async (req, res) => {
     res.status(201).json(resCreateOrder);
 });
 
-app.get('/capacities', async (req, res) => {
-    const client = await authenticate()
-
+async function getCapacities(client) {
     const resCreateCapacitylist = await client.executeQuery(`
     query {
     viewer {
@@ -99,8 +122,9 @@ app.get('/capacities', async (req, res) => {
             node {
             product_type
             material
-            supplier_id,
+            capacity_idd,
             capacity,
+            supplier_id,
             lead_time,
             tolerance
             }
@@ -109,8 +133,35 @@ app.get('/capacities', async (req, res) => {
     }
     }
 `)
+console.log("resCreateCapacitylist", resCreateCapacitylist);
 
-    res.json(resCreateCapacitylist.data.viewer.capacity3List.edges.map(k => JSON.stringify(k)));
+    return resCreateCapacitylist.data.viewer.capacity3List.edges.map(k => ({...k.node, capacity_id: k.node.capacity_idd}))
+}
+
+app.get('/capacities', async (req, res) => {
+    const client = await authenticate()
+    const capacities = await getCapacities(client)
+  
+
+    res.json(
+        capacities
+    );
+});
+
+app.get('/capacities/:id', async (req, res) => {
+    const itemId = req.params.id;
+
+    console.log("itemId", itemId);
+
+    const client = await authenticate()
+    const suppliersList = await getCapacities(client)
+
+    const item = suppliersList.find(item => item.capacity_idd === itemId);
+    if (!item) {
+        res.status(404).json({ message: 'Item not found' });
+    } else {
+        res.json(item);
+    }
 });
 
 app.post('/capacities', async (req, res) => {
@@ -119,6 +170,7 @@ app.post('/capacities', async (req, res) => {
 mutation {
     createCapacity3(input: {
       content: {
+        capacity_idd: """${req.body.capacity_id}""",
         product_type: """${req.body.product_type}""",
         material: """${req.body.meterial}""",
         supplier_id: """${req.body.supplier_id}""",
@@ -129,6 +181,7 @@ mutation {
     })
     {
       document {
+        capacity_idd
         product_type
         material
         supplier_id,
@@ -147,6 +200,12 @@ mutation {
 
 app.get('/suppliers', async (req, res) => {
     const client = await authenticate()
+    const suppliersList = await getSuppliers(client)
+
+    res.json(suppliersList);
+});
+
+async function getSuppliers(client) {
     const suppliersList = await client.executeQuery(`
     query {
     viewer {
@@ -163,8 +222,8 @@ app.get('/suppliers', async (req, res) => {
     }
     `)
 
-    res.json(suppliersList.data.viewer.supplierList.edges.map(k => k.node));
-});
+    return suppliersList.data.viewer.supplierList.edges.map(k => k.node)
+}
 
 app.post('/suppliers', async (req, res) => {
     const client = await authenticate()
@@ -197,25 +256,9 @@ app.get('/suppliers/:id', async (req, res) => {
     console.log("itemId", itemId);
 
     const client = await authenticate()
-    const suppliersList = await client.executeQuery(`
-    query {
-    viewer {
-        supplierList(last:300) { 
-        edges {
-            node {
-            supplier_name
-            supplier_id
-            location
-            }
-        }
-        }
-    }
-    }
-    `)
+    const suppliersList = await getSuppliers(client)
 
-    console.log("suppliersList.data.viewer.supplierList.edges", suppliersList.data.viewer.supplierList.edges);
-
-    const item = suppliersList.data.viewer.supplierList.edges.find(item => item.node.supplier_id === itemId)?.node;
+    const item = suppliersList.find(item => item.supplier_id === itemId);
     if (!item) {
         res.status(404).json({ message: 'Item not found' });
     } else {

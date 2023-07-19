@@ -2,6 +2,7 @@ type Capacity3 @createModel(accountRelation: LIST, description: "Capacities") {
   product_type: String @string(minLength: 0, maxLength: 50)
   material: String @string(minLength: 0, maxLength: 50)
   supplier_id: String @string(minLength: 0, maxLength: 50)
+  capacity_idd: String @string(minLength: 0, maxLength: 50)
   capacity: Int
   lead_time: Int
   tolerance: Float
