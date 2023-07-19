@@ -163,7 +163,7 @@ app.get('/suppliers', async (req, res) => {
     }
     `)
 
-    res.json(suppliersList.data.viewer.supplierList.edges.map(k => JSON.stringify(k)));
+    res.json(suppliersList.data.viewer.supplierList.edges.map(k => k.node));
 });
 
 app.post('/suppliers', async (req, res) => {
@@ -191,9 +191,31 @@ mutation {
 });
 
 // GET endpoint to retrieve a specific item by id
-app.get('/items/:id', (req, res) => {
-    const itemId = Number(req.params.id);
-    const item = data.find(item => item.id === itemId);
+app.get('/suppliers/:id', async (req, res) => {
+    const itemId = req.params.id;
+
+    console.log("itemId", itemId);
+
+    const client = await authenticate()
+    const suppliersList = await client.executeQuery(`
+    query {
+    viewer {
+        supplierList(last:300) { 
+        edges {
+            node {
+            supplier_name
+            supplier_id
+            location
+            }
+        }
+        }
+    }
+    }
+    `)
+
+    console.log("suppliersList.data.viewer.supplierList.edges", suppliersList.data.viewer.supplierList.edges);
+
+    const item = suppliersList.data.viewer.supplierList.edges.find(item => item.node.supplier_id === itemId)?.node;
     if (!item) {
         res.status(404).json({ message: 'Item not found' });
     } else {
