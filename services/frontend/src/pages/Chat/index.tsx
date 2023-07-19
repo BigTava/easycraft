@@ -7,6 +7,7 @@ import { useWeb3 } from "contexts/Web3.context";
 import { isSupportedChain } from "utils/networks";
 import { toast } from "react-toastify";
 import axios from "axios";
+import clsx from "clsx";
 
 // Components
 import { DefaultButton } from "components/Buttons/DefaultButton";
@@ -14,6 +15,13 @@ import { DefaultButton } from "components/Buttons/DefaultButton";
 // Utils
 import marketPlaceAbi from "utils/abis/marketPlace.json";
 import { MatchedOrder } from "utils/types/matchedOrder.types";
+
+// Assets
+import logoHugging from "assets/huggingFace.png";
+import logoCeramic from "assets/ceramic.png";
+import logoFilecoin from "assets/filecoin.png";
+import logoFlashbots from "assets/flashbots.png";
+import logoGnosis from "assets/gnosis.png";
 
 const Landing = () => {
   const [step, setStep] = useState<number>(0);
@@ -36,7 +44,7 @@ const Landing = () => {
 
   const { runContractFunction: matchCapacity } = useWeb3Contract({
     abi: marketPlaceAbi,
-    contractAddress: "0xCeedFC3f1b205405170d7ee8BE95EafDeF197c92",
+    contractAddress: "0x52e58C6c37095187652a95138f58C9dc29e63537",
     functionName: "matchCapacity",
     params: {
       _orderId: orderArgs!.orderId,
@@ -170,6 +178,34 @@ const Landing = () => {
             </DefaultButton>
           </div>
         )}
+        <div className="relative mt-8 lg:col-span-7 xl:col-span-6">
+          <p className="text-center text-sm font-semibold text-gray-900 lg:text-left">
+            Powered by
+          </p>
+          <ul
+            role="list"
+            className="mx-auto mt-8 flex flex-wrap justify-center gap-x-10 gap-y-8 lg:mx-0 lg:justify-start"
+          >
+            {[["Gnosis", logoGnosis]].map(([name, logo, className]) => (
+              <li
+                key={name}
+                className={clsx("flex text-center align-middle", className)}
+              >
+                <img src={logo} alt={name} className="h-8" />
+              </li>
+            ))}
+            {[
+              ["HuggingFace", logoHugging],
+              ["Filecoin", logoFilecoin],
+              ["Ceramic", logoCeramic],
+              ["Flashbots", logoFlashbots],
+            ].map(([name, logo, className]) => (
+              <li key={name} className={clsx("flex", className)}>
+                <img src={logo} alt={name} className="h-16" />
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </main>
   );

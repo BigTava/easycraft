@@ -58,7 +58,9 @@ export function Header() {
           <div className="relative z-10 flex items-center gap-16">
             <a href="/" aria-label="Home" className="">
               <span className="text-4xl font-bold text-blue-600">Easy</span>
-              <span className="text-3xl font-light text-gray-700">Craft</span>
+              <span className="text-3xl font-light text-gray-700">
+                Craft.ai
+              </span>
             </a>
           </div>
           <div className="flex items-center gap-6">
