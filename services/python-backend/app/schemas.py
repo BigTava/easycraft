@@ -1,14 +1,10 @@
 from pydantic import BaseModel
 
 
-class OrmBaseModel(BaseModel):
-    class Config:
-        orm_mode = True
+class OrderPayloadSchema(BaseModel):
+    order: str
+    decentralized_computation: bool = False
 
 
-class OrderPayloadSchema(OrmBaseModel):
-    type: str
-
-
-class OrderResponseSchema(OrmBaseModel):
-    status: str
+class OrderResponseSchema(BaseModel):
+    message: str

@@ -8,6 +8,7 @@
       "source.organizeImports": true
     },
     "editor.defaultFormatter": "ms-python.black-formatter",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "python.formatting.provider": "none"
   }
 }

@@ -1,0 +1,21 @@
+{
+  "product_specification": {
+    "product_id": "Optional",
+    "product_name": "Optional",
+    "product_type": "Mandatory",
+    "material": "Mandatory",
+    "dimensions": {
+      "length": "Optional",
+      "width": "Optional",
+      "height": "Optional",
+      "diameter": "Optional"
+    },
+    "weight": "Optional",
+    "quantity": "Mandatory",
+    "color": "Optional",
+    "surface_finish": "Optional",
+    "design_files": "Optional"
+  },
+  "delivery_date": "Mandatory",
+  "delivery_location": "Mandatory"
+}
