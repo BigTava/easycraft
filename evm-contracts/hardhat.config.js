@@ -1,28 +1,47 @@
-require("@nomicfoundation/hardhat-toolbox");
+require("@nomicfoundation/hardhat-toolbox")
 require("dotenv").config()
+require("hardhat-deploy")
+require("./tasks/faucet")
 
-// The next line is part of the sample project, you don't need it in your
-// project. It imports a Hardhat task definition, that can be used for
-// testing the frontend.
-require("./tasks/faucet");
+/* Wallet Keys */
+const PRIVATE_KEY = process.env.MNEMONIC
 
-let accounts = { mnemonic: process.env.MNEMONIC }
+const accounts = PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : []
 
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  defaultNetwork: "gnosis",
-  networks: {
-    hardhat: {
+    defaultNetwork: "gnosis",
+    networks: {
+        hardhat: {},
+        gnosis: {
+            url: "https://rpc.gnosischain.com",
+            accounts: accounts,
+        },
+        chiado: {
+            url: "https://rpc.chiadochain.net",
+            gasPrice: 1000000000,
+            accounts: accounts,
+        },
     },
-    gnosis: {
-      url: "https://rpc.gnosischain.com",
-      accounts: accounts,
+    namedAccounts: {
+        deployer: {
+            default: 0,
+            1: 0,
+        },
     },
-    chiado: {
-      url: "https://rpc.chiadochain.net",
-      gasPrice: 1000000000,
-      accounts: accounts,
+    solidity: "0.8.17",
+    mocha: {
+        timeout: 200000, // 200 seconds max for running tests
     },
-  },
-  solidity: "0.8.17",
-};
+    gasReporter: {
+        enabled: process.env.REPORT_GAS !== undefined,
+        currency: "USD",
+        outputFile: "gas-report.txt",
+        noColors: true,
+        coinmarketcap: process.env.COINMARKETCAP_API_KEY,
+    },
+    typechain: {
+        outDir: "typechain",
+        target: "ethers-v5",
+    },
+}
