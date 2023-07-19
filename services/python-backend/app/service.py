@@ -20,17 +20,26 @@ def call_prompt(input: str):
 
     match response.status_code:
         case 200:
-            print(response.json())
             return response.json()[0]["generated_text"]
-        
+
         case 401:
             raise ErrorGeneratingText
 
 
 async def ask_feedback(order: str):
     input = """Do you have enough information to match this order schema?
-            Just answer yes or no."""
-    order_schema = json.load(open(os.path.join("app", "order_schema.json")))
+             Please answer yes or no following the explanation."""
+    order_schema = json.load(open(os.path.join("static", "order_schema.json")))
     input = input + "The schema is" + str(order_schema) + "The order is" + order
+
+    return call_prompt(input)
+
+
+async def run_in_bacalhau(order: str):
+    input = f"""Choose the supplier that best matches this order.
+            Order: {order}.
+            Suppliers:
+            {str(json.load(open(os.path.join("static",
+                                             "order_schema.json"))))}"""
 
     return call_prompt(input)

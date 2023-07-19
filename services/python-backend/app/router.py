@@ -1,5 +1,5 @@
 from app.schemas import OrderPayloadSchema, OrderResponseSchema
-from app.service import ask_feedback
+from app.service import ask_feedback, run_in_bacalhau
 from fastapi import APIRouter, status
 
 router = APIRouter(prefix="/api/orders", tags=["Orders"])
@@ -12,6 +12,9 @@ router = APIRouter(prefix="/api/orders", tags=["Orders"])
 async def post_order(
     payload: OrderPayloadSchema,
 ) -> OrderResponseSchema:
-    output = await ask_feedback(payload.order)
+    if payload.decentralized_computation is False:
+        output = await ask_feedback(payload.order)
+    else:
+        output = await run_in_bacalhau(payload.order)
 
     return {"message": output}

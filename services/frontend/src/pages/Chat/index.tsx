@@ -6,18 +6,20 @@ import axios from "axios";
 import { DefaultButton } from "components/Buttons/DefaultButton";
 
 const Landing = () => {
-  const [showPayButton] = useState(false);
+  const [step, setStep] = useState<number>(0);
   const [currentUserPrompt, setCurrentUserPrompt] = useState<string>("You: ");
   const [messages, setMessages] = useState<string[]>([]);
 
-  const mutation = useMutation((newOrder: { order: string }) => {
-    return axios.post("http://localhost:8000/api/orders", newOrder);
-  });
+  const mutation = useMutation(
+    (newOrder: { order: string; decentralized_computation: boolean }) => {
+      return axios.post("http://localhost:8000/api/orders", newOrder);
+    }
+  );
 
   const onClickSend = async () => {
     setMessages([...messages, `You: ${currentUserPrompt}`]);
     mutation.mutate(
-      { order: currentUserPrompt },
+      { order: currentUserPrompt, decentralized_computation: step === 1 },
       {
         onSuccess: (data) => {
           setMessages([
@@ -25,6 +27,7 @@ const Landing = () => {
             `You: ${currentUserPrompt}`,
             `AI: ${data.data.message}`,
           ]);
+          setStep(step + 1);
         },
         onError: (error) => {
           setMessages([
@@ -40,7 +43,7 @@ const Landing = () => {
   return (
     <main className="mx-auto flex min-h-screen max-w-7xl flex-col px-4 sm:px-6 lg:px-8">
       <section>
-        <section className="w-500px h-500px my-20 mx-auto overflow-hidden rounded-xl bg-gray-200 shadow-lg">
+        <section className="w-500px h-500px my-20 mx-auto mb-5 overflow-hidden rounded-xl bg-gray-200 shadow-lg">
           <section className="h-4/5 overflow-y-scroll p-5">
             {messages.map((message, idx) => (
               <p
@@ -70,7 +73,14 @@ const Landing = () => {
             </DefaultButton>
           </section>
         </section>
-        {showPayButton && <DefaultButton onClick={() => {}}>Pay</DefaultButton>}
+        {step === 2 && (
+          <div className=" text-center">
+            <p className="mb-5 text-center">🥳 Your request is ready!</p>
+            <DefaultButton className="w-1/6 rounded-full" onClick={() => {}}>
+              Pay
+            </DefaultButton>
+          </div>
+        )}
       </section>
     </main>
   );
