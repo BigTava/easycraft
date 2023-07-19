@@ -1,5 +1,6 @@
 import json
 import os
+import subprocess
 
 import requests
 from app.exceptions import ErrorGeneratingText
@@ -42,4 +43,21 @@ async def run_in_bacalhau(order: str):
             {str(json.load(open(os.path.join("static",
                                              "order_schema.json"))))}"""
 
-    return call_prompt(input)
+    command = (
+    "bacalhau docker run "
+    "-w /inputs "
+    "-i gitlfs://huggingface.co/databricks/dolly-v2-3b.git "
+    "-i https://gist.githubusercontent.com/js-ts/d35e2caa98b1c9a8f176b0b877e0c892/raw/3f020a6e789ceef0274c28fc522ebf91059a09a9/inference.py "
+    "jsacex/dolly_inference:latest "
+    "-- python inference.py --prompt 'Hey' --model_version './databricks/dolly-v2-3b'"
+    )
+
+    # run the command
+    process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE)
+
+    # get the output and errors
+    stdout, stderr = process.communicate()
+    print(stderr)
+    print(stdout)
+    return stdout
