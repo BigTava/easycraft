@@ -155,6 +155,15 @@ app.get('/capacities_supplier/:id', async (req, res) => {
     );
 });
 
+app.get('/orders_supplier/:id', async (req, res) => {
+    const itemId = req.params.id;
+    const client = await authenticate()
+    const capacities = await getOrders(client)
+    res.json(
+        capacities.filter(k => k.supplier_id === itemId)
+    );
+});
+
 app.get('/capacities/:id', async (req, res) => {
     const itemId = req.params.id;
 

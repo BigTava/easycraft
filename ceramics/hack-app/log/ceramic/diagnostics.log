@@ -1226,3 +1226,5 @@
 [Wed, 19 Jul 2023 10:32:58 GMT] Starting indexing for Model kjzl6hvfrbw6c9m9brthgvymjbe0wzk8svf9i4trl7a0cm87e4hi3zyimpjxexf
 [Wed, 19 Jul 2023 10:32:58 GMT] Starting indexing for Model kjzl6hvfrbw6cap7wmf0bg3v5smiic95rhqm67vz71ccny78xzqqsgryhg7nevv
 [Wed, 19 Jul 2023 10:36:37 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any messages, please check your IPFS configuration and ensure your node is well connected to the rest of the Ceramic network.
+[Wed, 19 Jul 2023 10:40:37 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any messages, please check your IPFS configuration and ensure your node is well connected to the rest of the Ceramic network.
+[Wed, 19 Jul 2023 10:56:37 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any messages, please check your IPFS configuration and ensure your node is well connected to the rest of the Ceramic network.
