@@ -3,4 +3,5 @@ type Order @createModel(accountRelation: LIST, description: "Orders") {
   material: String @string(minLength: 0, maxLength: 50)
   supplier_id: String @string(minLength: 0, maxLength: 50)
   capacity_id: String @string(minLength: 0, maxLength: 50)
+  order_id: String @string(minLength: 0, maxLength: 50)
 }
