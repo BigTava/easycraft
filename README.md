@@ -23,7 +23,7 @@ Potential Applications
 While our current focus is on manufacturing spare capacity, our implementation can be extended to manage the spare capacity of human resources as well.
 
 ## Contributors
-This project was created during a hackathon, and we are grateful for the time and effort invested by all contributors. We welcome further contributions to enhance and expand this reference implementation.
+This project was created during a [Augment AI hackathon 2023](https://www.augmenthack.xyz/), and we are grateful for the time and effort invested by all contributors. We welcome further contributions to enhance and expand this reference implementation.
 
 ## Disclaimer
 This implementation is a prototype and is currently in the research phase. It is not ready for production use.
