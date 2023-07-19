@@ -1,58 +1,58 @@
 pragma solidity ^0.8.0;
 
 contract MarketPlace {
-    struct Product {
+    struct Capacity {
         bytes32 id;
-        string name;
-        uint price;
+        bytes32 manufacturerId;
         address payable supplier;
         bool available;
+        uint256 minPrice;
     }
 
     struct Bid {
         uint id;
-        bytes32 productId;
+        bytes32 capacityId;
         address bidder;
         uint amount;
         bool active;
     }
 
-    mapping(bytes32 => Product) public products;
-    mapping(bytes32 => Bid[]) public productBids;
+    mapping(bytes32 => Capacity) public capacities;
+    mapping(bytes32 => Bid[]) public capacityBids;
 
-    event ProductAdded(bytes32 id, string name, uint price, address supplier);
-    event BidPlaced(uint id, bytes32 productId, address bidder, uint amount);
-    event BidWithdrawn(uint id, bytes32 productId, address bidder);
-    event BidAccepted(uint id, bytes32 productId, address bidder, uint amount);
-    event ProductPurchased(bytes32 id, string name, uint price, address buyer);
+    event CapacityAdded(bytes32 id, address supplier, bytes32 manufacturerId);
+    event BidPlaced(uint id, bytes32 capacityId, address bidder, uint amount);
+    event BidWithdrawn(uint id, bytes32 capacityId, address bidder);
+    event BidAccepted(uint id, bytes32 capacityId, address bidder, uint amount);
+    event CapacityPurchased(bytes32 id, address buyer, bytes32 manufacturerId);
 
-    modifier productExists(bytes32 _productId) {
-        require(products[_productId].price > 0, "Product does not exist.");
+    modifier capacityExists(bytes32 _capacityId) {
+        require(capacities[_capacityId].id != bytes32(0), "Capacity does not exist.");
         _;
     }
 
-    function addProduct(bytes32 _id, string memory _name, uint _price) public {
-        require(_id != bytes32(0), "Product ID is required.");
-        require(bytes(_name).length > 0, "Product name is required.");
-        require(_price > 0, "Product price must be greater than zero.");
+    function addCapacity(bytes32 _id, uint _minPrice, bytes32 manufacturerId) public {
+        require(_id != bytes32(0), "Capacity ID is required.");
+        require(_minPrice > 0, "Capacity price must be greater than zero.");
 
-        products[_id] = Product(_id, _name, _price, payable(msg.sender), true);
+        capacities[_id] = Capacity(_id, manufacturerId, payable(msg.sender), true, _minPrice);
 
-        emit ProductAdded(_id, _name, _price, msg.sender);
+        emit CapacityAdded(_id, msg.sender, manufacturerId);
     }
 
-    function placeBid(bytes32 _productId) public payable productExists(_productId) {
-        require(products[_productId].available, "Product is not available.");
+    function placeBid(bytes32 _capacityId) public payable capacityExists(_capacityId) {
+        require(capacities[_capacityId].available, "Capacity is not available.");
         require(msg.value > 0, "Bid amount must be greater than zero.");
+        require(capacities[_capacityId].minPrice >= msg.value, "Bid amount must be greater than or equal to the minimum price.");
 
-        productBids[_productId].push(Bid(productBids[_productId].length + 1, _productId, msg.sender, msg.value, true));
+        capacityBids[_capacityId].push(Bid(capacityBids[_capacityId].length + 1, _capacityId, msg.sender, msg.value, true));
 
-        emit BidPlaced(productBids[_productId].length, _productId, msg.sender, msg.value);
+        emit BidPlaced(capacityBids[_capacityId].length, _capacityId, msg.sender, msg.value);
     }
 
-    function withdrawBid(bytes32 _productId) public productExists(_productId) {
-        Bid[] storage bids = productBids[_productId];
-        require(bids.length > 0, "No bids exist for the product.");
+    function withdrawBid(bytes32 _capacityId) public capacityExists(_capacityId) {
+        Bid[] storage bids = capacityBids[_capacityId];
+        require(bids.length > 0, "No bids exist for the capacity.");
 
         Bid storage bid = bids[bids.length - 1];
         require(bid.bidder == msg.sender, "Only the bidder can withdraw their bid.");
@@ -61,20 +61,20 @@ contract MarketPlace {
         bid.active = false;
         payable(msg.sender).transfer(bid.amount);
 
-        emit BidWithdrawn(bid.id, _productId, msg.sender);
+        emit BidWithdrawn(bid.id, _capacityId, msg.sender);
     }
 
-    function acceptBid(bytes32 _productId, uint _bidId) public payable productExists(_productId) {
-        Product storage product = products[_productId];
-        require(product.available, "Product is not available.");
+    function acceptBid(bytes32 _capacityId, uint _bidId) public payable capacityExists(_capacityId) {
+        Capacity storage capacity = capacities[_capacityId];
+        require(capacity.available, "Capacity is not available.");
 
-        Bid[] storage bids = productBids[_productId];
+        Bid[] storage bids = capacityBids[_capacityId];
         require(_bidId > 0 && _bidId <= bids.length, "Invalid bid ID.");
 
         Bid storage bid = bids[_bidId - 1];
         require(bid.active, "Bid is no longer active.");
 
-        product.available = false;
+        capacity.available = false;
 
         for (uint i = 0; i < bids.length; i++) {
             if (i != _bidId - 1) {
@@ -82,8 +82,8 @@ contract MarketPlace {
             }
         }
 
-        product.supplier.transfer(bid.amount);
-        emit BidAccepted(_bidId, _productId, bid.bidder, bid.amount);
-        emit ProductPurchased(product.id, product.name, product.price, bid.bidder);
+        capacity.supplier.transfer(bid.amount);
+        emit BidAccepted(_bidId, _capacityId, bid.bidder, bid.amount);
+        emit CapacityPurchased(capacity.id, bid.bidder, capacity.manufacturerId);
     }
 }
