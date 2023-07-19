@@ -952,3 +952,75 @@
 [Wed, 19 Jul 2023 08:47:25 GMT] Starting indexing for Model kjzl6hvfrbw6c57p6t99krxnhqbxb24suuvxfhq1hnqujfecq0fap356ai7sjk9
 [Wed, 19 Jul 2023 08:47:25 GMT] Starting indexing for Model kjzl6hvfrbw6caxj1s3jopndm1cl4euvurxmfe3fuek3l4gkh6ocwibwo1ialmg
 [Wed, 19 Jul 2023 08:47:25 GMT] Starting indexing for Model kjzl6hvfrbw6c8mdq0ts05crnibtdjoapouxb01op4y5h3fjr8g4btuz5usxy2u
+[Wed, 19 Jul 2023 08:52:39 GMT] Error: insert into `kjzl6hvfrbw6c8mdq0ts05crnibtdjoapouxb01op4y5h3fjr8g4btuz5usxy2u` (`controller_did`, `created_at`, `first_anchored_at`, `last_anchored_at`, `stream_content`, `stream_id`, `tip`, `updated_at`) values ('did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP', 1689756759075, NULL, NULL, '{"material":"mattt","capacity_id":"supppId2","supplier_id":"supppId2","product_name":"typpe"}', 'kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2', 'bagcqceraivzhlrpflm4uisdsa7ub532x4lwgn4heuv7unnazms4wttrrxuha', 1689756759075) on conflict (`stream_id`) do update set `stream_id` = 'kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2',`controller_did` = 'did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP',`stream_content` = '{"material":"mattt","capacity_id":"supppId2","supplier_id":"supppId2","product_name":"typpe"}',`tip` = 'bagcqceraivzhlrpflm4uisdsa7ub532x4lwgn4heuv7unnazms4wttrrxuha',`updated_at` = 1689756759075 - SQLITE_READONLY: attempt to write a readonly database
+[Wed, 19 Jul 2023 08:52:39 GMT] Error while anchoring stream kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2:Error: insert into `kjzl6hvfrbw6c8mdq0ts05crnibtdjoapouxb01op4y5h3fjr8g4btuz5usxy2u` (`controller_did`, `created_at`, `first_anchored_at`, `last_anchored_at`, `stream_content`, `stream_id`, `tip`, `updated_at`) values ('did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP', 1689756759108, NULL, NULL, '{"material":"mattt","capacity_id":"supppId2","supplier_id":"supppId2","product_name":"typpe"}', 'kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2', 'bagcqceraivzhlrpflm4uisdsa7ub532x4lwgn4heuv7unnazms4wttrrxuha', 1689756759108) on conflict (`stream_id`) do update set `stream_id` = 'kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2',`controller_did` = 'did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP',`stream_content` = '{"material":"mattt","capacity_id":"supppId2","supplier_id":"supppId2","product_name":"typpe"}',`tip` = 'bagcqceraivzhlrpflm4uisdsa7ub532x4lwgn4heuv7unnazms4wttrrxuha',`updated_at` = 1689756759108 - SQLITE_READONLY: attempt to write a readonly database
+[Wed, 19 Jul 2023 08:52:39 GMT] Error: insert into `kjzl6hvfrbw6c8mdq0ts05crnibtdjoapouxb01op4y5h3fjr8g4btuz5usxy2u` (`controller_did`, `created_at`, `first_anchored_at`, `last_anchored_at`, `stream_content`, `stream_id`, `tip`, `updated_at`) values ('did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP', 1689756759108, NULL, NULL, '{"material":"mattt","capacity_id":"supppId2","supplier_id":"supppId2","product_name":"typpe"}', 'kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2', 'bagcqceraivzhlrpflm4uisdsa7ub532x4lwgn4heuv7unnazms4wttrrxuha', 1689756759108) on conflict (`stream_id`) do update set `stream_id` = 'kjzl6kcym7w8y6m3fn7tkl6u4pfdka64252hyjdrdkwrm5qd7yomjsf2s82xuz2',`controller_did` = 'did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP',`stream_content` = '{"material":"mattt","capacity_id":"supppId2","supplier_id":"supppId2","product_name":"typpe"}',`tip` = 'bagcqceraivzhlrpflm4uisdsa7ub532x4lwgn4heuv7unnazms4wttrrxuha',`updated_at` = 1689756759108 - SQLITE_READONLY: attempt to write a readonly database
+[Wed, 19 Jul 2023 08:53:06 GMT] Starting Ceramic Daemon at version 2.29.0 with config: 
+{
+  "anchor": {},
+  "http-api": {
+    "hostname": "127.0.0.1",
+    "port": 7007,
+    "cors-allowed-origins": [
+      ".*"
+    ],
+    "admin-dids": [
+      "did:key:z6Mkgcen7SWff3HdKMQNUpfYZrxJMuHJeD4iiTUGHPgLhbf6",
+      "did:key:z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP#z6MkfuigJH7DXP6PiYpMVLvsX1Ak2CYKmMEX488zCub9tvwP",
+      "39692c9a7e6a8a24061d3ebf4f1905e0eb05cb879908b2e896cce3f2fb396723"
+    ]
+  },
+  "ipfs": {
+    "mode": "bundled"
+  },
+  "logger": {
+    "log-directory": "/Users/pahor/repo/spare-capacity-marketplace/ceramics/hack-app/log/ceramic",
+    "log-level": 2,
+    "log-to-files": true
+  },
+  "metrics": {
+    "metrics-exporter-enabled": false
+  },
+  "network": {
+    "name": "inmemory"
+  },
+  "node": {
+    "gateway": false
+  },
+  "state-store": {
+    "mode": "file",
+    "local-directory": "/etc/ceramic/data"
+  },
+  "indexing": {
+    "db": "sqlite:../ceramic-indexing/ceramic.db",
+    "allow-queries-before-historical-sync": true,
+    "disable-composedb": false,
+    "enable-historical-sync": false
+  }
+}
+[Wed, 19 Jul 2023 08:53:06 GMT] Connecting to IPFS node available as /ip4/10.10.174.131/tcp/4011/p2p/12D3KooWB37wtrVRH815ByZdHVCunXBobQeJjMF3Wo7YvLDmwfeg, /ip4/127.0.0.1/tcp/4011/p2p/12D3KooWB37wtrVRH815ByZdHVCunXBobQeJjMF3Wo7YvLDmwfeg
+[Wed, 19 Jul 2023 08:53:06 GMT] Connecting to ceramic network 'inmemory' using pubsub topic '/ceramic/inmemory-2402155429'
+[Wed, 19 Jul 2023 08:53:06 GMT] Initializing SQLite connection
+[Wed, 19 Jul 2023 08:53:06 GMT] Starting indexing for Model kjzl6hvfrbw6c8bxrz5y2jm084fyz7x0wjptdmeych9d28t72t3po9u6f4wus47
+[Wed, 19 Jul 2023 08:53:09 GMT] Starting indexing for Model kjzl6hvfrbw6c8kz82vbeh7vetjvujcqly03xbcxhpt8phrnse8yyx5o0z5u4un
+[Wed, 19 Jul 2023 08:53:12 GMT] Starting indexing for Model kjzl6hvfrbw6cb02zqirjbnlbqh0fsamft2mdyx7fn5vbmy0u42nzr3upi1ewr0
+[Wed, 19 Jul 2023 08:53:15 GMT] Starting indexing for Model kjzl6hvfrbw6c8bk2z3j4n4uoekbjsddyivc7tubqronipwpp5lvn7f71992m9d
+[Wed, 19 Jul 2023 08:53:18 GMT] Starting indexing for Model kjzl6hvfrbw6cay5lnj0dnm1z2ue8vt1cso76efmcqh6m9j2xnuklj6p2nevpi7
+[Wed, 19 Jul 2023 08:53:21 GMT] Starting indexing for Model kjzl6hvfrbw6c9m9brthgvymjbe0wzk8svf9i4trl7a0cm87e4hi3zyimpjxexf
+[Wed, 19 Jul 2023 08:53:24 GMT] Starting indexing for Model kjzl6hvfrbw6c57p6t99krxnhqbxb24suuvxfhq1hnqujfecq0fap356ai7sjk9
+[Wed, 19 Jul 2023 08:53:27 GMT] Starting indexing for Model kjzl6hvfrbw6c7gxr84vvivh8c5awz1eycoj793oixk68zw7k3z3zk5uh06fwxl
+[Wed, 19 Jul 2023 08:53:30 GMT] Starting indexing for Model kjzl6hvfrbw6c8aqx7wkpty6dcrbgh6npjo6a2iipgq4739hg9144snuq4z4ac4
+[Wed, 19 Jul 2023 08:53:33 GMT] Starting indexing for Model kjzl6hvfrbw6c6cx10zkssfr5tyab6ut96iu8p2gn1v795iy76z5ivhg0106we4
+[Wed, 19 Jul 2023 08:53:36 GMT] Starting indexing for Model kjzl6hvfrbw6c9geoqim5hl56rgzrnoaqq13gag6pkl6g7z5fqe8w94ji70mw2h
+[Wed, 19 Jul 2023 08:53:39 GMT] Starting indexing for Model kjzl6hvfrbw6c9hu45k7n6lbd6tbnsgv4cshgp4g6a2loqcm3506l40n099h5f4
+[Wed, 19 Jul 2023 08:53:42 GMT] Starting indexing for Model kjzl6hvfrbw6c9ikftshyalycbzzky6yr7lh1nxywlgqucmpp5atzqn3gp1jbcj
+[Wed, 19 Jul 2023 08:53:45 GMT] Starting indexing for Model kjzl6hvfrbw6c55eaw7loemg3ly2vm8s1cs489epvzkqaa925mg3j9lnush4urv
+[Wed, 19 Jul 2023 08:53:48 GMT] Starting indexing for Model kjzl6hvfrbw6c5yhbzo8pnglnj1joppqj0kqy20g7py42j9q21pya30a0xbv860
+[Wed, 19 Jul 2023 08:53:51 GMT] Starting indexing for Model kjzl6hvfrbw6caxj1s3jopndm1cl4euvurxmfe3fuek3l4gkh6ocwibwo1ialmg
+[Wed, 19 Jul 2023 08:53:54 GMT] Starting indexing for Model kjzl6hvfrbw6c8mdq0ts05crnibtdjoapouxb01op4y5h3fjr8g4btuz5usxy2u
+[Wed, 19 Jul 2023 08:53:57 GMT] Connected to anchor service '<inmemory>' with supported anchor chains ['inmemory:12345']
+[Wed, 19 Jul 2023 08:53:57 GMT] Ceramic API running on 127.0.0.1:7007'
+[Wed, 19 Jul 2023 08:54:06 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any internal messages, please check your IPFS configuration.
+[Wed, 19 Jul 2023 08:56:06 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any messages, please check your IPFS configuration and ensure your node is well connected to the rest of the Ceramic network.
+[Wed, 19 Jul 2023 09:38:36 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any messages, please check your IPFS configuration and ensure your node is well connected to the rest of the Ceramic network.
+[Wed, 19 Jul 2023 09:49:07 GMT] Did not receive any pubsub messages in more than 60000ms. IPFS did not provide any messages, please check your IPFS configuration and ensure your node is well connected to the rest of the Ceramic network.
