@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -8,3 +10,5 @@ class OrderPayloadSchema(BaseModel):
 
 class OrderResponseSchema(BaseModel):
     message: str
+    orderId: Optional[str]
+    capacityId: Optional[str]

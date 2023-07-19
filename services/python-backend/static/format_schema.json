@@ -1,0 +1,6 @@
+{
+  "orderId": "Mandatory",
+  "supplierId": "Mandatory",
+  "amount": "Mandatory",
+  "message": "Mandatory"
+}

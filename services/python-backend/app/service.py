@@ -5,6 +5,9 @@ import time
 
 import requests
 from app.exceptions import ErrorGeneratingText
+from app.utils import create_order_input
+
+order_schema = json.load(open(os.path.join("static", "order_schema.json")))
 
 
 def call_prompt(input: str):
@@ -22,7 +25,7 @@ def call_prompt(input: str):
 
     match response.status_code:
         case 200:
-            return response.json()[0]["generated_text"]
+            return response.json()
 
         case 401:
             raise ErrorGeneratingText
@@ -31,6 +34,15 @@ def call_prompt(input: str):
 async def ask_feedback(order: str):
     input = """Do you have enough information to match this order schema?
              Please answer yes or no following the explanation."""
+    
+    input = input + "The schema is" + str(order_schema) + "The order is" + order
+
+    return call_prompt(input)
+
+
+async def convert_order_into_json(order: str):
+    input = """Return me a json following this format ?
+             Please answer yes or no following the explanation."""
     order_schema = json.load(open(os.path.join("static", "order_schema.json")))
     input = input + "The schema is" + str(order_schema) + "The order is" + order
 
@@ -38,11 +50,7 @@ async def ask_feedback(order: str):
 
 
 async def run_in_bacalhau(order: str):
-    input = f"""Choose the supplier that best matches this order.
-            Order: {order}.
-            Suppliers:
-            {str(json.load(open(os.path.join("static",
-                                             "order_schema.json"))))}"""
+    input = create_order_input(order)
 
     command = (
         "bacalhau docker run jsacex/dolly_inference:latest ",
@@ -54,12 +62,11 @@ jsacex/dolly_inference:latest",
     )
     process = subprocess.run(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     job_id = process.stdout.split()[-1]
-    print(job_id)
 
     while True:
         status_command = f"bacalhau list --id-filter {job_id}"
         process = subprocess.run(status_command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        print(process.stdout)
+
         if 'Completed' in process.stdout:
             break
         time.sleep(5)  # wait for 5 seconds before checking again
@@ -74,3 +81,4 @@ jsacex/dolly_inference:latest",
         result = f.read()
 
     return result
+

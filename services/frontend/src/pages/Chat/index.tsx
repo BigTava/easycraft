@@ -19,7 +19,7 @@ const Landing = () => {
   const onClickSend = async () => {
     setMessages([...messages, `You: ${currentUserPrompt}`]);
     mutation.mutate(
-      { order: currentUserPrompt, decentralized_computation: step === 1 },
+      { order: currentUserPrompt, decentralized_computation: step === 3 },
       {
         onSuccess: (data) => {
           setMessages([

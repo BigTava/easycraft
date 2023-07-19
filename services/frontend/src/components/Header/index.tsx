@@ -5,7 +5,6 @@ import { getWeb3 } from "plugins/web3";
 import { useWeb3 } from "contexts/Web3.context";
 import { useUser } from "contexts/User.context";
 import { useMoralis } from "react-moralis";
-import { useNavigate } from "react-router-dom";
 
 // Components
 import AccountModal from "components/Modals/AccountModal";
@@ -14,7 +13,6 @@ import HeaderContainer from "./Container";
 import { UserCircleIcon } from "@heroicons/react/24/outline";
 
 export function Header() {
-  const navigate = useNavigate();
   const { Moralis } = useMoralis();
   const { setUser, user } = useUser();
   const { setWeb3 } = useWeb3();
@@ -35,7 +33,6 @@ export function Header() {
       setWeb3(web3);
       setUser(accounts[0]);
       Moralis.enableWeb3();
-      navigate("/dashboard");
     } catch (error) {
       setDisabled(false);
     }
@@ -66,25 +63,31 @@ export function Header() {
           </div>
           <div className="flex items-center gap-6">
             <div className="col-span-1 flex w-full items-center justify-end gap-[8px] font-semibold text-green-400  ">
-              <DefaultButton
-                variant="outline"
-                color="gray"
-                className="lg:block"
-                onClick={() => {
-                  {
-                    !isLoggedIn ? connect() : setOpenWalletModal(true);
-                  }
-                }}
-                disabled={disabled}
-              >
-                {!isLoggedIn ? "Login" : "My Account"}
-              </DefaultButton>
+              {!isLoggedIn && (
+                <DefaultButton
+                  variant="outline"
+                  color="gray"
+                  className="lg:block"
+                  onClick={() => {
+                    {
+                      !isLoggedIn ? connect() : setOpenWalletModal(true);
+                    }
+                  }}
+                  disabled={disabled}
+                >
+                  Login
+                </DefaultButton>
+              )}
               {isLoggedIn && (
                 <DefaultButton
                   variant="solid"
                   color="green"
-                  className="lg:block"
-                  onClick={() => navigate("/dashboard")}
+                  className="rounded-lg lg:block"
+                  onClick={() => {
+                    {
+                      !isLoggedIn ? connect() : setOpenWalletModal(true);
+                    }
+                  }}
                   disabled={disabled}
                 >
                   <UserCircleIcon className="text-grey-500 h-6 w-full" />

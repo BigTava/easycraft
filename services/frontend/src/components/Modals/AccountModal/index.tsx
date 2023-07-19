@@ -10,7 +10,7 @@ import CardHeader from "components/Cards/MagicCard/Header";
 import DefaultModal from "components/Modals/DefaultModal";
 
 // Assets
-import Loading from "assets/images/loading.svg";
+import Loading from "assets/loading.svg";
 
 // Utils
 import { Networks } from "utils/networks";
