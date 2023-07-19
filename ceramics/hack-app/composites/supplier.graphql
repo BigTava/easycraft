@@ -1,0 +1,5 @@
+type Supplier @createModel(accountRelation: LIST, description: "Supplier info") {
+  supplier_id: String @string(minLength: 0, maxLength: 50)
+  supplier_name: String @string(minLength: 0, maxLength: 50)
+  location: String @string(minLength: 0, maxLength: 50)
+}

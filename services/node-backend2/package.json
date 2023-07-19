@@ -1,0 +1,19 @@
+{
+  "name": "my-node-api",
+  "version": "1.0.0",
+  "description": "My first Node.js API",
+  "main": "server.js",
+  "type": "module",
+  
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@composedb/client": "^0.4.4",
+    "dids": "^4.0.3",
+    "express": "^4.17.1",
+    "key-did-provider-ed25519": "^3.0.1",
+    "key-did-resolver": "^3.0.0",
+    "uint8arrays": "^4.0.2"
+  }
+}

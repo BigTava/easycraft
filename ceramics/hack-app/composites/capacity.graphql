@@ -1,3 +1,0 @@
-type Capacity @createModel(accountRelation: SINGLE, description: "Very basic profile") {
-  displayName: String! @string(minLength: 3, maxLength: 50)
-}
