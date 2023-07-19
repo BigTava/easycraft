@@ -141,10 +141,17 @@ console.log("resCreateCapacitylist", resCreateCapacitylist);
 app.get('/capacities', async (req, res) => {
     const client = await authenticate()
     const capacities = await getCapacities(client)
-  
-
     res.json(
         capacities
+    );
+});
+
+app.get('/capacities_supplier/:id', async (req, res) => {
+    const itemId = req.params.id;
+    const client = await authenticate()
+    const capacities = await getCapacities(client)
+    res.json(
+        capacities.filter(k => k.supplier_id === itemId)
     );
 });
 
